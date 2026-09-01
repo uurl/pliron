@@ -1,0 +1,28 @@
+name: tmp-gep-nowrap-current-base-export
+
+on:
+  push:
+    branches:
+      - tmp/gep-nowrap-current-base-20260901
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create source archive
+        run: |
+          zip -r pliron-gep-nowrap-current-base.zip \
+            pliron-llvm/src/attributes.rs \
+            pliron-llvm/src/ops.rs \
+            pliron-llvm/src/llvm_sys/core.rs \
+            pliron-llvm/src/from_llvm_ir.rs \
+            pliron-llvm/src/to_llvm_ir.rs \
+            pliron-llvm/tests/ir_expect.rs \
+            pliron-llvm/tests/metadata.rs
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: pliron-gep-nowrap-current-base
+          path: pliron-gep-nowrap-current-base.zip
+          retention-days: 1
